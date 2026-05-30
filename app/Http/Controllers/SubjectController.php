@@ -31,6 +31,7 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validatedData =$request->validate([
             'name'=>'required|string|max:255',
             'subject_code'=>'required|string|max:50|unique:subjects,subject_code'

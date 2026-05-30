@@ -11,7 +11,6 @@ class StudentController extends Controller
     protected $studentService;
 
     /**
-     * Inject StudentService in the constructor.
      */
     public function __construct(StudentService $studentService)
     {
