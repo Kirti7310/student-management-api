@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_type_id',
     ];
 
     /**
@@ -41,4 +42,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin():bool
+    {
+        return $this->user_type_id === 'admin';
+    }
+
+    public function isStudent():bool
+    {
+        return $this->user_type_id === 'student';
+    }
+
+    public function isTeacher():bool
+    {
+        return $this->user_type_id === 'teacher';
+    }
 }

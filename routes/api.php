@@ -28,16 +28,29 @@ use App\Http\Controllers\StudentController;
 
 
 //students
-Route::get('/students', [App\Http\Controllers\StudentController::class, 'index']);
-Route::post('/students', [App\Http\Controllers\StudentController::class, 'store']);
-Route::get('/students/{id}', [App\Http\Controllers\StudentController::class, 'show']);
-Route::post('/students/{id}', [App\Http\Controllers\StudentController::class, 'update']);
-Route::delete('/students/{id}', [App\Http\Controllers\StudentController::class, 'destroy']);
+Route::middleware(['usertype:admin,teacher'])->group(function () {
 
+Route::post('/students', [App\Http\Controllers\StudentController::class, 'store']);
+Route::post('/students/{id}', [App\Http\Controllers\StudentController::class, 'update']);
+Route::post('/students/{id}', [App\Http\Controllers\StudentController::class, 'destroy']);
+Route::post('/attendances', [AttendanceController::class, 'store']);
+
+
+});
+
+
+Route::middleware(['usertype:student'])->group(function () {
+
+Route::get('/students', [App\Http\Controllers\StudentController::class, 'index']);
+Route::get('/students/{id}', [App\Http\Controllers\StudentController::class, 'show']);
+Route::get('/attendances', [AttendanceController::class, 'index']);
+
+
+
+});
 
 //atatndace
 Route::get('/attendances', [AttendanceController::class, 'index']);
-Route::post('/attendances', [AttendanceController::class, 'store']);
 
 //subbjects
 Route::get('/subjects', [App\Http\Controllers\SubjectController::class, 'index']);
