@@ -26,10 +26,6 @@ class StoreStudentRequest extends FormRequest
             'course' => 'required|string|max:50',
             'age' => 'required|integer|min:18|max:30',
             'gender' => 'required|string|in:male,female,other',
-            'address' => 'required|string|max:255',
-            'date_of_birth' => 'nullable|date',
-            'city' => 'required|string|max:100',
-            'blood_group' => 'required|string',
             'subject_id' => 'nullable|array',
             'subject_id.*' => 'exists:subjects,id'
         ];

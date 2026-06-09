@@ -9,7 +9,7 @@ class Profile extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['gender', 'address', 'date_of_birth', 'city', 'blood_group'];
+    protected $fillable = ['gender'];
 
 
     public function student()

@@ -13,10 +13,6 @@ class StudentService
     {
         $profile = Profile::create([
             'gender'        => $data['gender'],
-            'address'       => $data['address'],
-            'date_of_birth' => $data['date_of_birth'] ?? null,
-            'city'          => $data['city'],
-            'blood_group'   => $data['blood_group'],
         ]);
 
         $student = Student::create([
