@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreSubjectRequest;
 
 class SubjectController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -29,13 +31,11 @@ class SubjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSubjectRequest $request)
     {
         
-        $validatedData =$request->validate([
-            'name'=>'required|string|max:255',
-            'subject_code'=>'required|string|max:50|unique:subjects,subject_code'
-         ]);
+        $validatedData =$request->validated();
+        
 
          $subject = Subject::create($validatedData);
 
@@ -46,13 +46,10 @@ class SubjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Subject $subject)
     {
-        $subjects = Subject::with('students')->find($id);
-        if (!$subjects) {
-            return response()->json(['message' => 'Subject not found'], 404);
-        }
-        return response()->json(['subject' => $subjects], 200);
+        $subject->load('students');
+        return response()->json(['subject' => $subject], 200);
     }
 
     /**

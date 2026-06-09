@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreAttendanceRequest;
 
 class AttendanceController extends Controller
 {
@@ -27,18 +28,13 @@ class AttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAttendanceRequest $request)
     {
-        $validatedData =$request->validate([
-            'student_id'=>'required|exists:students,id',
-            'attendance_date'=>'required|date',
-            'status'=>'required|in:present,absent,late',
-            'remarks'=>'nullable|string'
-         ]);
+        $validatedData =$request->validated();
 
-         $attendance = Attendance::create($validatedData);
+        $attendance = Attendance::create($validatedData);
 
-         return response()->json(['message'=>'Attendance recorded successfully','attendance'=>$attendance],201);
+        return response()->json(['message'=>'Attendance recorded successfully','attendance'=>$attendance],201);
         
     }
 

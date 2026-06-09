@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Student;
+use App\Models\Profile;
 
 class StudentService
 {
@@ -10,19 +11,21 @@ class StudentService
      */
     public function registerStudent(array $data): Student
     {
-        $student = Student::create([
-            'name'   => $data['name'],
-            'email'  => $data['email'],
-            'phone'  => $data['phone'],
-            'course' => $data['course'],
-            'age'    => $data['age'],
-        ]);
-
-        $student->profile()->create([
+        $profile = Profile::create([
+            'gender'        => $data['gender'],
             'address'       => $data['address'],
             'date_of_birth' => $data['date_of_birth'] ?? null,
             'city'          => $data['city'],
             'blood_group'   => $data['blood_group'],
+        ]);
+
+        $student = Student::create([
+            'profile_id' => $profile->id,
+            'name'       => $data['name'],
+            'email'      => $data['email'],
+            'phone'      => $data['phone'],
+            'course'     => $data['course'],
+            'age'        => $data['age'],
         ]);
 
         if (!empty($data['subject_id'])) {

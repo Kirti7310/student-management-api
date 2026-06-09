@@ -9,12 +9,12 @@ class Profile extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['student_id', 'address','date_of_birth', 'city', 'blood_group'];
+    protected $fillable = ['gender', 'address', 'date_of_birth', 'city', 'blood_group'];
 
 
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->hasOne(Student::class);
     }
 
 

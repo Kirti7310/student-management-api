@@ -6,6 +6,9 @@ use App\Models\Student;
 use App\Services\StudentService;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
+
 class StudentController extends Controller
 {
     protected $studentService;
@@ -20,10 +23,29 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with(['profile', 'attendances', 'subjects'])->get();
-        return response()->json(['students' => $students], 200);
+        $query = Student::with(['profile', 'attendances', 'subjects']);
+
+        if ($request->has('course') && !empty($request->course)) {
+            $query->where('course', $request->course);
+        }
+
+        if ($request->has('name') && !empty($request->name)) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        $students = $query->paginate();
+
+        return response()->json([
+            'students' => $students->items(),
+            'pagination' => [
+                'total' => $students->total(),
+                'per_page' => $students->perPage(),
+                'current_page' => $students->currentPage(),
+                'last_page' => $students->lastPage(),
+            ]
+        ], 200);
     }
 
     /**
@@ -37,21 +59,9 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreStudentRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email',
-            'phone' => 'required|string|max:20',
-            'course' => 'required|string|max:50',
-            'age' => 'required|integer|min:18|max:30',
-            'address' => 'required|string|max:255',
-            'date_of_birth' => 'nullable|date',
-            'city' => 'required|string|max:100',
-            'blood_group' => 'required|string',
-            'subject_id' => 'nullable|array',
-            'subject_id.*' => 'exists:subjects,id'
-        ]);
+        $validatedData = $request->validated();
 
         try {
             $student = $this->studentService->registerStudent($validatedData);
@@ -66,10 +76,16 @@ class StudentController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
 
-
-
-        return response()->json($student, 200);
+    /**
+     * Display the specified resource.
+     */
+    public function show(Student $student)
+    {
+        return response()->json([
+            'student' => $student->load(['profile', 'attendances', 'subjects'])
+        ], 200);
     }
 
     /**
@@ -83,25 +99,9 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateStudentRequest $request, Student $student)
     {
-        $student = Student::find($id);
-
-        if (!$student) {
-            return response()->json([
-                'message' => 'Student not found'
-            ], 404);
-        }
-
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email,' . $id,
-            'phone' => 'required|string|max:20',
-            'course' => 'required|string|max:50',
-            'age' => 'required|integer|min:18|max:30',
-            'subject_id' => 'nullable|array',
-            'subject_id.*' => 'exists:subjects,id'
-        ]);
+        $validatedData = $request->validated();
 
         try {
             $updatedStudent = $this->studentService->updateStudent($student, $validatedData);
@@ -117,20 +117,11 @@ class StudentController extends Controller
             ], 500);
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Student $student)
     {
-        $student = Student::find($id);
-
-        if (!$student) {
-            return response()->json([
-                'message' => 'Student not found'
-            ], 404);
-        }
-
         $student->delete();
 
         return response()->json([
@@ -138,3 +129,4 @@ class StudentController extends Controller
         ], 200);
     }
 }
+
