@@ -13,6 +13,9 @@ class StudentSeeder extends Seeder
      */
     public function run(): void
     {
+        //try to implment seeder without raw queries
+        //existing data without affecting .
+        //run a foreach loop.
        DB::table('students')->insert([
             [
                 'name' => 'Kirti Karapurkar',

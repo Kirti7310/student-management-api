@@ -51,6 +51,7 @@ class StudentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    //remove this function if we are not using that function.
     public function create()
     {
         //
@@ -91,7 +92,7 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Student $student)
+    public function edit(Student $student)//remove 
     {
         //
     }

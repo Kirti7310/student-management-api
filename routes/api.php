@@ -28,7 +28,6 @@ use App\Http\Controllers\StudentController;
 
 
 //students
-Route::middleware(['usertype:admin,teacher'])->group(function () {
 
 Route::post('/students', [App\Http\Controllers\StudentController::class, 'store']);
 Route::post('/students/{student}', [App\Http\Controllers\StudentController::class, 'update']);
@@ -36,10 +35,10 @@ Route::delete('/students/{student}', [App\Http\Controllers\StudentController::cl
 Route::post('/attendances', [AttendanceController::class, 'store']);
 
 
-});
 
 
-Route::middleware(['usertype:student'])->group(function () {
+
+////Route::middleware(['usertype:student'])->group(function () {
 
 Route::get('/students', [App\Http\Controllers\StudentController::class, 'index']);
 Route::get('/students/{student}', [App\Http\Controllers\StudentController::class, 'show']);
@@ -47,10 +46,8 @@ Route::get('/attendances', [AttendanceController::class, 'index']);
 
 
 
-});
+// });
 
-//atatndace
-Route::get('/attendances', [AttendanceController::class, 'index']);
 
 //subbjects
 Route::get('/subjects', [App\Http\Controllers\SubjectController::class, 'index']);

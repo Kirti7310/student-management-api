@@ -28,10 +28,11 @@ class StudentService
             $student->subjects()->attach($data['subject_id']);
         }
 
-        return $student->load(['profile', 'attendances', 'subjects']);
+        return $student->load(['profile', 'attendances', 'subjects']);//controller is return response
     }
 
     /**
+     * enter some details
      */
     public function updateStudent(Student $student, array $data): Student
     {
