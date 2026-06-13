@@ -49,15 +49,6 @@ class StudentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    //remove this function if we are not using that function.
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreStudentRequest $request)
@@ -87,14 +78,6 @@ class StudentController extends Controller
         return response()->json([
             'student' => $student->load(['profile', 'attendances', 'subjects'])
         ], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Student $student)//remove 
-    {
-        //
     }
 
     /**

@@ -44,6 +44,15 @@ class StudentService
             'age'    => $data['age'],
         ]);
 
+        if (isset($data['gender'])) {
+            if ($student->profile) {
+                $student->profile->update(['gender' => $data['gender']]);
+            } else {
+                $profile = Profile::create(['gender' => $data['gender']]);
+                $student->update(['profile_id' => $profile->id]);
+            }
+        }
+
         if (isset($data['subject_id'])) {
             $student->subjects()->sync($data['subject_id']);
         }

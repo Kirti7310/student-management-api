@@ -28,6 +28,7 @@ class UpdateStudentRequest extends FormRequest
             'phone' => 'required|string|max:20',
             'course' => 'required|string|max:50',
             'age' => 'required|integer|min:18|max:30',
+            'gender' => 'required|string|in:male,female,other',
             'subject_id' => 'nullable|array',
             'subject_id.*' => 'exists:subjects,id'
         ];
