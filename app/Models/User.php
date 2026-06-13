@@ -45,16 +45,16 @@ class User extends Authenticatable
 
     public function isAdmin():bool
     {
-        return $this->user_type_id === 'admin';
+        return (int) $this->user_type_id === 1;
     }
 
     public function isStudent():bool
     {
-        return $this->user_type_id === 'student';
+        return (int) $this->user_type_id === 3;
     }
 
     public function isTeacher():bool
     {
-        return $this->user_type_id === 'teacher';
+        return (int) $this->user_type_id === 2;
     }
 }

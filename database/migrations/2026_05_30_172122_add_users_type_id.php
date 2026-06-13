@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //id primary key
-            $table->string('user_type_id')->default('student')->after('email');
+            $table->integer('user_type_id')->default(3)->after('email');
         });
     }
 

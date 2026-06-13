@@ -38,15 +38,9 @@ Route::post('/attendances', [AttendanceController::class, 'store']);
 
 
 
-////Route::middleware(['usertype:student'])->group(function () {
-
 Route::get('/students', [App\Http\Controllers\StudentController::class, 'index']);
 Route::get('/students/{student}', [App\Http\Controllers\StudentController::class, 'show']);
 Route::get('/attendances', [AttendanceController::class, 'index']);
-
-
-
-// });
 
 
 //subbjects
