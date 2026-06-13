@@ -25,7 +25,7 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Student::with(['profile', 'attendances', 'subjects']);
+        $query = Student::with(['profile', 'subjects']);
 
         if ($request->has('course') && !empty($request->course)) {
             $query->where('course', $request->course);
@@ -76,7 +76,7 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         return response()->json([
-            'student' => $student->load(['profile', 'attendances', 'subjects'])
+            'student' => $student->load(['profile', 'subjects'])
         ], 200);
     }
 

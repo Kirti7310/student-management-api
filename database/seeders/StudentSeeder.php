@@ -23,6 +23,7 @@ class StudentSeeder extends Seeder
                 'phone' => '9876543210',
                 'course' => 'BCA',
                 'age' => 22,
+                'gender' => 'female',
             ],
             [
                 'name' => 'Jojo ',
@@ -30,14 +31,39 @@ class StudentSeeder extends Seeder
                 'phone' => '9123456780',
                 'course' => 'MCA',
                 'age' => 24,
+                'gender' => 'male',
             ]
         ];
 
         foreach ($students as $studentData) {
-            Student::updateOrCreate(
-                ['email' => $studentData['email']],
-                $studentData
-            );
+            $student = Student::where('email', $studentData['email'])->first();
+
+            if ($student && $student->profile) {
+                $student->update([
+                    'name' => $studentData['name'],
+                    'phone' => $studentData['phone'],
+                    'course' => $studentData['course'],
+                    'age' => $studentData['age'],
+                ]);
+                $student->profile->update([
+                    'gender' => $studentData['gender']
+                ]);
+            } else {
+                $profile = \App\Models\Profile::create([
+                    'gender' => $studentData['gender']
+                ]);
+
+                Student::updateOrCreate(
+                    ['email' => $studentData['email']],
+                    [
+                        'name' => $studentData['name'],
+                        'phone' => $studentData['phone'],
+                        'course' => $studentData['course'],
+                        'age' => $studentData['age'],
+                        'profile_id' => $profile->id,
+                    ]
+                );
+            }
         }
     }
 }

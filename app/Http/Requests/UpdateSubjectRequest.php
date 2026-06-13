@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAttendanceRequest extends FormRequest
+class UpdateSubjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,11 +19,12 @@ class StoreAttendanceRequest extends FormRequest
      */
     public function rules(): array
     {
+        $subject = $this->route('subject');
+        $subjectId = is_object($subject) ? $subject->id : $subject;
+
         return [
-            'student_id' => 'required|exists:students,id',
-            'attendance_date' => 'required|date',
-            'status' => 'required|in:present,absent,late',
-            'remarks' => 'nullable|string'
+            'name' => 'required|string|max:255',
+            'subject_code' => 'required|string|max:50|unique:subjects,subject_code,' . $subjectId
         ];
     }
 }

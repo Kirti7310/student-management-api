@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-use App\Http\Controllers\AttendanceController;
+
 
 use App\Http\Controllers\SubjectController;
 
@@ -30,9 +30,9 @@ use App\Http\Controllers\StudentController;
 //students
 
 Route::post('/students', [App\Http\Controllers\StudentController::class, 'store']);
-Route::post('/students/{student}', [App\Http\Controllers\StudentController::class, 'update']);
+Route::match(['post', 'put'], '/students/{student}', [App\Http\Controllers\StudentController::class, 'update']);
 Route::delete('/students/{student}', [App\Http\Controllers\StudentController::class, 'destroy']);
-Route::post('/attendances', [AttendanceController::class, 'store']);
+
 
 
 
@@ -40,10 +40,12 @@ Route::post('/attendances', [AttendanceController::class, 'store']);
 
 Route::get('/students', [App\Http\Controllers\StudentController::class, 'index']);
 Route::get('/students/{student}', [App\Http\Controllers\StudentController::class, 'show']);
-Route::get('/attendances', [AttendanceController::class, 'index']);
+
 
 
 //subbjects
 Route::get('/subjects', [App\Http\Controllers\SubjectController::class, 'index']);
 Route::post('/subjects', [App\Http\Controllers\SubjectController::class, 'store']);
 Route::get('/subjects/{subject}', [App\Http\Controllers\SubjectController::class, 'show']);
+Route::match(['post', 'put'], '/subjects/{subject}', [App\Http\Controllers\SubjectController::class, 'update']);
+Route::delete('/subjects/{subject}', [App\Http\Controllers\SubjectController::class, 'destroy']);

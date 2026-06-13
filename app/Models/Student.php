@@ -25,11 +25,6 @@ class Student extends Model
         return $this->belongsTo(Profile::class);
     }
 
-    
-    public function attendances()
-    {
-        return $this->hasMany(Attendance::class);
-    }
 
   
     public function subjects()

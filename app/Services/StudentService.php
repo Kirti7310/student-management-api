@@ -28,7 +28,7 @@ class StudentService
             $student->subjects()->attach($data['subject_id']);
         }
 
-        return $student->load(['profile', 'attendances', 'subjects']);//controller is return response
+        return $student->load(['profile', 'subjects']);
     }
 
     /**
@@ -57,6 +57,6 @@ class StudentService
             $student->subjects()->sync($data['subject_id']);
         }
 
-        return $student->load(['profile', 'attendances', 'subjects']);
+        return $student->load(['profile', 'subjects']);
     }
 }
