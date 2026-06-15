@@ -35,16 +35,10 @@ class StudentController extends Controller
             $query->where('name', 'like', '%' . $request->name . '%');
         }
 
-        $students = $query->paginate();
+        $students = $query->get();
 
         return response()->json([
-            'students' => $students->items(),
-            'pagination' => [
-                'total' => $students->total(),
-                'per_page' => $students->perPage(),
-                'current_page' => $students->currentPage(),
-                'last_page' => $students->lastPage(),
-            ]
+            'students' => $students,
         ], 200);
     }
 
